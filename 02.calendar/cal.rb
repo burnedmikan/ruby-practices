@@ -22,14 +22,14 @@ class Calendar
   end
 
   def draw_body
-    days_array = Array.new(@start_date.wday, "  ")
+    days = Array.new(@start_date.wday, "  ")
 
     @start_date.step(@end_date) do |target_date|
-      days_array.push(target_date.day.to_s.rjust(2))
+      days.push(target_date.day.to_s.rjust(2))
 
       if target_date.saturday? || target_date == @end_date
-        puts days_array.join(" ")
-        days_array.clear
+        puts days.join(" ")
+        days.clear
       end
     end
   end
@@ -43,8 +43,8 @@ opt.on('-m month') {|v| v }
 
 opt.parse!(ARGV, into: params)
 
-params[:m] = params.has_key?(:m) ? params[:m].to_i : Date.today.month
-params[:y] = params.has_key?(:y) ? params[:y].to_i : Date.today.year
+year = params[:y] ? params[:y].to_i : Date.today.year
+month = params[:m] ? params[:m].to_i : Date.today.month
 
-calendar = Calendar.new(params[:y], params[:m])
+calendar = Calendar.new(year, month)
 calendar.draw
