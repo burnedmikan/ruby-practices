@@ -6,20 +6,21 @@ scores = score.split(',')
 shots = []
 
 scores.each do |s|
-  if s == 'X' && shots.size < 18 # 9フレーム目までのstrikeの時
-    shots << 10 << 0
+  if s == 'X'
+    shots << 10
+    shots << 0 if shots.size < 18
   else
-    shots << (s == 'X' ? 10 : s.to_i)
+    shots << s.to_i
   end
 end
 
 first_9_frames_shots = shots[0...18]
-last_frame_shots     = shots[18..]
+last_frame_shots = shots[18..]
 
 frames = first_9_frames_shots.each_slice(2).to_a
-frames << last_frame_shots if last_frame_shots
+frames << last_frame_shots
 
-points = 0.upto(9).map do |idx|
+points = 0.upto(9).sum do |idx|
   frame = frames[idx]
   frame_number = idx + 1
 
@@ -40,4 +41,4 @@ points = 0.upto(9).map do |idx|
   end
 end
 
-p points.sum
+puts points
